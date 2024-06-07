@@ -1,47 +1,69 @@
-import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
-import Home from '.';
+import React from "react";
+import { render, fireEvent } from "@testing-library/react-native";
+import { Provider } from "react-redux";
+import Home from ".";
+import configureStore from "redux-mock-store";
 
-jest.mock('react-redux', () => ({
-  ...jest.requireActual('react-redux'),
-  useSelector: jest.fn(),
-}));
+const mockStore = configureStore([]);
 
-jest.mock('react-native/Libraries/Utilities/Dimensions', () => ({
-  get: jest.fn(() => ({ width: 500, height: 500 })),
-}));
-
-const mockUseEffect = jest.fn();
-jest.spyOn(React, 'useEffect').mockImplementation(mockUseEffect);
-
-describe('Home Component', () => {
+describe("Home", () => {
+  let store;
   beforeEach(() => {
-    jest.clearAllMocks();
+    store = mockStore({
+      cryptoReducer: {
+        btc: { s: "BTC", p: "100", dc: "5" },
+        btc_data: [{ p: "100" }, { p: "200" }, { p: "300" }],
+        eth: { s: "ETH", p: "200", dc: "10" },
+        eth_data: [{ p: "200" }, { p: "250" }, { p: "300" }],
+      },
+    });
   });
 
-  it('renders correctly', () => {
-    const mockSelector = {
-      eth: { s: 'ETH', p: '2000', dc: '10' },
-      eth_data: [{ p: '2000' }, { p: '2100' }],
-      btc: { s: 'BTC', p: '50000', dc: '-5' },
-      btc_data: [{ p: '50000' }, { p: '49000' }],
-    };
-    (useSelector as jest.Mock).mockReturnValue(mockSelector);
-
-    const { getByText } = render(<Home />);
-    
-    expect(getByText('ETH')).toBeTruthy();
-    expect(getByText('BTC')).toBeTruthy();
-    expect(getByText('Last Price')).toBeTruthy();
-    expect(getByText('Ticker Code')).toBeTruthy();
-    expect(getByText('Change Percentage')).toBeTruthy();
+  it("renders correctly", () => {
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <Home />
+      </Provider>
+    );
+    expect(getByTestId("switcher")).toBeDefined();
+    expect(getByTestId("crypto-item")).toBeDefined();
+    expect(getByTestId("line-chart")).toBeDefined();
   });
 
-  it('handles switcher click', () => {
-    const { getByText } = render(<Home />);
+  it("switches between Bitcoin and Ethereum views", () => {
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <Home />
+      </Provider>
+    );
 
-    fireEvent.press(getByText('BTC'));
+    // Initially renders Bitcoin view
+    expect(getByTestId("crypto-item").props.ticker).toEqual("BTC");
+    expect(getByTestId("line-chart").props.legend).toEqual(["BTC"]);
 
-    expect(mockUseEffect).toHaveBeenCalledTimes(1);
+    // Simulate switch to Ethereum view
+    fireEvent.press(getByTestId("switcher-ethereum-button"));
+
+    // Ensure Ethereum view is rendered
+    expect(getByTestId("crypto-item").props.ticker).toEqual("ETH");
+    expect(getByTestId("line-chart").props.legend).toEqual(["ETH"]);
   });
+
+  it("handles click on data points correctly", () => {
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <Home />
+      </Provider>
+    );
+
+    // Simulate click on data point
+    fireEvent(getByTestId("line-chart"), "onDataPointClick", {
+      x: 0,
+      y: 0,
+      value: 100,
+    });
+
+    // Ensure tooltip is displayed with correct value
+    expect(getByTestId("tooltip").props.children).toEqual(100);
   });
+});

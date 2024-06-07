@@ -11,7 +11,7 @@ const cryptoSlice = createSlice({
   reducers: {
     addCryptoCurrencies: (state, action) => {
       const { s, p, q, dc, dd, t } = action?.payload;
-      const maxItems = 20;
+      const maxItems = 10;
 
       if (s === "ETH-USD") {
         const incoming = [...state.eth_data, { p }];

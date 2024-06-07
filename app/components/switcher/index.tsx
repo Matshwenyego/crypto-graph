@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { View, TouchableOpacity } from "react-native";
+import { describe, it, expect } from '@jest/globals';
 import { FontAwesome5 } from "@expo/vector-icons";
 import styles from "./styles";
 

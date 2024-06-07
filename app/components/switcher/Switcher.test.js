@@ -2,45 +2,44 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import Switcher from '.';
 
-describe('Switcher Component', () => {
-  const mockSetIndex = jest.fn();
-
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
+describe('Switcher', () => {
   it('renders correctly', () => {
-    const { getByTestId } = render(<Switcher index={0} setIndex={mockSetIndex} />);
-    const bitcoinButton = getByTestId('bitcoin-button');
-    const ethereumButton = getByTestId('ethereum-button');
-
-    expect(bitcoinButton).toBeTruthy();
-    expect(ethereumButton).toBeTruthy();
+    const { getByTestId } = render(<Switcher index={0} setIndex={() => {}} />);
+    expect(getByTestId('bitcoin-button')).toBeDefined();
+    expect(getByTestId('ethereum-button')).toBeDefined();
   });
 
-  it('applies correct background color based on index', () => {
-    const { getByTestId, rerender } = render(<Switcher index={0} setIndex={mockSetIndex} />);
+  it('calls setIndex correctly when Bitcoin button is pressed', () => {
+    const setIndexMock = jest.fn();
+    const { getByTestId } = render(<Switcher index={0} setIndex={setIndexMock} />);
     const bitcoinButton = getByTestId('bitcoin-button');
-    const ethereumButton = getByTestId('ethereum-button');
-
-    expect(bitcoinButton.props.style.backgroundColor).toBe('gray');
-    expect(ethereumButton.props.style.backgroundColor).toBe('white');
-
-    rerender(<Switcher index={1} setIndex={mockSetIndex} />);
-
-    expect(bitcoinButton.props.style.backgroundColor).toBe('white');
-    expect(ethereumButton.props.style.backgroundColor).toBe('gray');
-  });
-
-  it('calls setIndex with correct value when buttons are pressed', () => {
-    const { getByTestId } = render(<Switcher index={0} setIndex={mockSetIndex} />);
-    const bitcoinButton = getByTestId('bitcoin-button');
-    const ethereumButton = getByTestId('ethereum-button');
 
     fireEvent.press(bitcoinButton);
-    expect(mockSetIndex).toHaveBeenCalledWith(0);
+
+    expect(setIndexMock).toHaveBeenCalledWith(0);
+  });
+
+  it('calls setIndex correctly when Ethereum button is pressed', () => {
+    const setIndexMock = jest.fn();
+    const { getByTestId } = render(<Switcher index={1} setIndex={setIndexMock} />);
+    const ethereumButton = getByTestId('ethereum-button');
 
     fireEvent.press(ethereumButton);
-    expect(mockSetIndex).toHaveBeenCalledWith(1);
+
+    expect(setIndexMock).toHaveBeenCalledWith(1);
+  });
+
+  it('changes background color based on index prop', () => {
+    const { getByTestId, rerender } = render(<Switcher index={0} setIndex={() => {}} />);
+    const bitcoinButton = getByTestId('bitcoin-button');
+    const ethereumButton = getByTestId('ethereum-button');
+
+    expect(bitcoinButton.props.style.backgroundColor).toEqual('gray');
+    expect(ethereumButton.props.style.backgroundColor).toEqual('white');
+
+    rerender(<Switcher index={1} setIndex={() => {}} />)
+
+    expect(bitcoinButton.props.style.backgroundColor).toEqual('white');
+    expect(ethereumButton.props.style.backgroundColor).toEqual('gray');
   });
 });

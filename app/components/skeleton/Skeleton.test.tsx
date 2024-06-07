@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react-native';
 import Skeleton from '.';
 
-describe('Skeleton Component', () => {
+describe('Skeleton', () => {
   it('renders correctly', () => {
     const { getByTestId } = render(<Skeleton width={100} height={100} />);
     const skeletonView = getByTestId('skeleton-view');
