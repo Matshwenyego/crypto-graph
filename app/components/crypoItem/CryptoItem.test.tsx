@@ -2,7 +2,7 @@
 // import { render, fireEvent } from '@testing-library/react-native';
 // import CryptoItem from '.';
 
-// describe('CryptoItem', () => {
+// describe('CryptoItem Component', () => {
 //   const mockProps = {
 //     price: '100',
 //     ticker: 'BTC',

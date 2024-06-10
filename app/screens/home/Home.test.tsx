@@ -6,64 +6,39 @@
 
 // const mockStore = configureStore([]);
 
-// describe("Home", () => {
-//   let store;
-//   beforeEach(() => {
-//     store = mockStore({
-//       cryptoReducer: {
-//         btc: { s: "BTC", p: "100", dc: "5" },
-//         btc_data: [{ p: "100" }, { p: "200" }, { p: "300" }],
-//         eth: { s: "ETH", p: "200", dc: "10" },
-//         eth_data: [{ p: "200" }, { p: "250" }, { p: "300" }],
-//       },
-//     });
-//   });
-
+// describe("Home Screen", () => {
 //   it("renders correctly", () => {
+//     const initialState = {
+//       eth: { name: "Ethereum", symbol: "ETH", p: "2500", dc: "5.0" },
+//       eth_data: [{ p: "2500" }, { p: "2550" }],
+//       btc: { name: "Bitcoin", symbol: "BTC", p: "40000", dc: "2.5" },
+//       btc_data: [{ p: "40000" }, { p: "41000" }],
+//     };
+//     const store = mockStore(initialState);
+
 //     const { getByTestId } = render(
 //       <Provider store={store}>
 //         <Home />
 //       </Provider>
 //     );
-//     expect(getByTestId("switcher")).toBeDefined();
-//     expect(getByTestId("crypto-item")).toBeDefined();
-//     expect(getByTestId("line-chart")).toBeDefined();
+//     expect(getByTestId("home")).toBeDefined();
 //   });
 
 //   it("switches between Bitcoin and Ethereum views", () => {
+//     const initialState = {
+//       eth: { name: "Ethereum", symbol: "ETH", p: "2500", dc: "5.0" },
+//       eth_data: [{ p: "2500" }, { p: "2550" }],
+//       btc: { name: "Bitcoin", symbol: "BTC", p: "40000", dc: "2.5" },
+//       btc_data: [{ p: "40000" }, { p: "41000" }],
+//     };
+//     const store = mockStore(initialState);
 //     const { getByTestId } = render(
 //       <Provider store={store}>
 //         <Home />
 //       </Provider>
 //     );
-
-//     // Initially renders Bitcoin view
-//     expect(getByTestId("crypto-item").props.ticker).toEqual("BTC");
-//     expect(getByTestId("line-chart").props.legend).toEqual(["BTC"]);
-
-//     // Simulate switch to Ethereum view
-//     fireEvent.press(getByTestId("switcher-ethereum-button"));
-
-//     // Ensure Ethereum view is rendered
-//     expect(getByTestId("crypto-item").props.ticker).toEqual("ETH");
-//     expect(getByTestId("line-chart").props.legend).toEqual(["ETH"]);
-//   });
-
-//   it("handles click on data points correctly", () => {
-//     const { getByTestId } = render(
-//       <Provider store={store}>
-//         <Home />
-//       </Provider>
-//     );
-
-//     // Simulate click on data point
-//     fireEvent(getByTestId("line-chart"), "onDataPointClick", {
-//       x: 0,
-//       y: 0,
-//       value: 100,
-//     });
-
-//     // Ensure tooltip is displayed with correct value
-//     expect(getByTestId("tooltip").props.children).toEqual(100);
+//     expect(getByTestId("tracker-item").props.ticker).toEqual("BTC");
+//     fireEvent.press(getByTestId("ethereum-button"));
+//     expect(getByTestId("tracker-item").props.ticker).toEqual("ETH");
 //   });
 // });

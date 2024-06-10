@@ -21,7 +21,7 @@ const useWebSocket = () => {
       if (response) {
         dispatch(addCryptoCurrencies({ ...response }));
       }
-    }, 1500);
+    }, 2000);
 
     ws.onerror = () => {
       ws.send(

@@ -1,46 +1,21 @@
-import { FC, useEffect, useState } from "react";
-import { StatusBar, View, Text, Modal } from "react-native";
+import { FC } from "react";
+import { StatusBar } from "react-native";
 import { Provider } from "react-redux";
-import NetInfo from "@react-native-community/netinfo";
+import { useNetInfo } from "@react-native-community/netinfo";
 
 import Root from "@/app/navigation";
 import store from "@/app/store";
-
-import styles from "@/app/styles";
+import Connectivity from "@/app/components/connectivity";
 
 const App: FC = () => {
-  const [isConnected, setIsConnected] = useState(true);
-
-  useEffect(() => {
-    NetInfo.fetch().then((state) => {
-      setIsConnected(state?.isConnected);
-    });
-
-    const unsubscribe = NetInfo.addEventListener((state) => {
-      setIsConnected(state?.isConnected);
-    });
-
-    return () => {
-      unsubscribe();
-    };
-  }, []);
-
+  const { isConnected } = useNetInfo();
   return (
     <Provider store={store}>
       <Root />
       <StatusBar barStyle="dark-content" />
-      {!isConnected && (
-        <Modal animationType="slide" transparent={true} visible={!isConnected}>
-          <View style={styles.container}>
-            <View style={styles.overlay}>
-              <Text style={styles.text}>No Internet Connection</Text>
-            </View>
-          </View>
-        </Modal>
-      )}
+      {!isConnected && <Connectivity transparent visible={!isConnected} />}
     </Provider>
   );
 };
 
 export default App;
-

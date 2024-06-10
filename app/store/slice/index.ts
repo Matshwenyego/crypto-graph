@@ -43,4 +43,5 @@ const cryptoSlice = createSlice({
 });
 
 export const { addCryptoCurrencies } = cryptoSlice.actions;
+
 export default cryptoSlice.reducer;

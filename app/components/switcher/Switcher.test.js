@@ -2,7 +2,7 @@
 // import { render, fireEvent } from '@testing-library/react-native';
 // import Switcher from '.';
 
-// describe('Switcher', () => {
+// describe('Switcher Component', () => {
 //   it('renders correctly', () => {
 //     const { getByTestId } = render(<Switcher index={0} setIndex={() => {}} />);
 //     expect(getByTestId('bitcoin-button')).toBeDefined();
@@ -13,9 +13,7 @@
 //     const setIndexMock = jest.fn();
 //     const { getByTestId } = render(<Switcher index={0} setIndex={setIndexMock} />);
 //     const bitcoinButton = getByTestId('bitcoin-button');
-
 //     fireEvent.press(bitcoinButton);
-
 //     expect(setIndexMock).toHaveBeenCalledWith(0);
 //   });
 
@@ -23,9 +21,7 @@
 //     const setIndexMock = jest.fn();
 //     const { getByTestId } = render(<Switcher index={1} setIndex={setIndexMock} />);
 //     const ethereumButton = getByTestId('ethereum-button');
-
 //     fireEvent.press(ethereumButton);
-
 //     expect(setIndexMock).toHaveBeenCalledWith(1);
 //   });
 
