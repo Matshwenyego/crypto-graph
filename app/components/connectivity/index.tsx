@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { View, Text, Modal } from "react-native";
 
-import styles from "@/app/styles";
+import styles from "./styles";
 
 type Props = {
   transparent: boolean;
